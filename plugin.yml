@@ -1,9 +1,9 @@
 ---
 name: CropGrowth
-version: 3.1.0
+version: 3.1.1
 main: NhanAZ\CropGrowth\Main
 author: NhanAZ
-api: 5.6.0
-website: https://github.com/NhanAZ
+api: 5.9.0
+website: https://github.com/NhanAZ-Plugins/CropGrowth
 description: Play particle and sound when using bone meal on crops
 ...

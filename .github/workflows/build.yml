@@ -1,0 +1,85 @@
+name: Build and validate plugin
+
+on:
+  push:
+    branches: [master]
+    tags: ["v*"]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out CropGrowth
+        uses: actions/checkout@v7.0.1
+
+      - name: Check out pinned Axolotl-PM source
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: axolotl-pm/PocketMine-MP
+          ref: dfe0d07e48a9e8d5a4a242fa43ff1cd3b743a955
+          path: .devtools-dependencies/axolotl-pm
+          persist-credentials: false
+
+      - name: Check out Axolotl PHP setup helper
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: axolotl-pm/setup-php-action
+          ref: b8c3f9add4f2ad4a5e2624a1112aba899ee8db0e
+          path: .devtools-dependencies/setup-php-action
+          persist-credentials: false
+
+      - name: Set up Axolotl PHP on Node.js 24
+        shell: bash
+        env:
+          INPUT_PHP-VERSION: "8.1"
+          INPUT_PM-VERSION-MAJOR: "5"
+          INPUT_INSTALL-PATH: ./.php-bin
+        run: node "$GITHUB_WORKSPACE/.devtools-dependencies/setup-php-action/dist/index.js"
+
+      - name: Validate Composer metadata and lockfile
+        run: composer validate --strict
+
+      - name: Install locked development dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress --no-scripts --no-plugins
+
+      - name: Run PHPStan at maximum level
+        run: php vendor/bin/phpstan analyse --configuration=phpstan.neon.dist --no-progress
+
+      - name: Lint PHP source
+        shell: bash
+        run: find src -name '*.php' -print0 | xargs -0 -n1 php -l
+
+      - name: Build plugin PHAR with DevTools
+        id: build
+        uses: NhanAZ/DevTools@v1.0.1
+        with:
+          project: .
+          output: build
+          phpstan: max
+          phpstan-server: .devtools-dependencies/axolotl-pm
+
+      - name: Verify PHAR contents and checksum
+        shell: bash
+        env:
+          PHAR_PATH: ${{ steps.build.outputs.phar }}
+          BUILD_METADATA: ${{ steps.build.outputs.metadata }}
+        run: |
+          set -euo pipefail
+          php -r '$p=new Phar(getenv("PHAR_PATH")); foreach(["plugin.yml","LICENSE","src/NhanAZ/CropGrowth/Main.php","src/NhanAZ/CropGrowth/Behavior/Plant/General.php"] as $f){if(!$p->offsetExists($f)){throw new RuntimeException("Missing PHAR entry: ".$f);}} $m=json_decode(file_get_contents(getenv("BUILD_METADATA")),true,512,JSON_THROW_ON_ERROR); if(hash_file("sha256",getenv("PHAR_PATH"))!==$m["data"]["sha256"]){throw new RuntimeException("PHAR digest mismatch");}'
+          cp "$BUILD_METADATA" build/devtools-build.json
+
+      - name: Upload verified build artifact
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: CropGrowth-${{ github.sha }}
+          path: |
+            ${{ steps.build.outputs.phar }}
+            build/devtools-build.json
+          if-no-files-found: error
+          retention-days: 14
