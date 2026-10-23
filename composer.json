@@ -7,7 +7,7 @@
         "php": "^8.1"
     },
     "require-dev": {
-        "axolotl-pm/pocketmine-mp": "5.49.1",
+        "axolotl-pm/pocketmine-mp": "5.50.0",
         "phpstan/phpstan": "^2.3",
         "friendsofphp/php-cs-fixer": "^3.49.0"
     },
