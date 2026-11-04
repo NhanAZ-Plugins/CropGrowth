@@ -1,9 +1,15 @@
 # CropGrowth
 
-CropGrowth plays growth particles and a bone meal sound when a player uses bone meal on supported crops and plants in an Axolotl-PM world.
+Play bone meal growth effects for supported plants on Axolotl-PM
 
-[![Build](https://github.com/NhanAZ-Plugins/CropGrowth/actions/workflows/build.yml/badge.svg)](https://github.com/NhanAZ-Plugins/CropGrowth/actions/workflows/build.yml)
-[![License](https://img.shields.io/github/license/NhanAZ-Plugins/CropGrowth)](LICENSE)
+[![CI](https://github.com/NhanAZ-Plugins/CropGrowth/actions/workflows/build.yml/badge.svg)](https://github.com/NhanAZ-Plugins/CropGrowth/actions/workflows/build.yml)
+[![Latest release](https://img.shields.io/github/v/release/NhanAZ-Plugins/CropGrowth)](https://github.com/NhanAZ-Plugins/CropGrowth/releases/latest)
+[![License](https://img.shields.io/github/license/NhanAZ-Plugins/CropGrowth)](https://github.com/NhanAZ-Plugins/CropGrowth/blob/master/LICENSE)
+[![Discord](https://img.shields.io/discord/986553214889517088?label=Discord&logo=discord&logoColor=white&color=5865F2)](https://discord.gg/j2X83ujT6c)
+
+## Overview
+
+This plugin targets the PocketMine-MP and Axolotl-PM API 5 ecosystem and is maintained under [NhanAZ-Plugins](https://github.com/NhanAZ-Plugins).
 
 ## Behavior
 
