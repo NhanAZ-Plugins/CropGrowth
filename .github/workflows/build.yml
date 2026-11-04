@@ -48,7 +48,7 @@ jobs:
 
       - name: Build plugin PHAR with DevTools
         id: build
-        uses: NhanAZ/DevTools@v2 # v2
+        uses: NhanAZ/DevTools@8b7db655845dc5d9e5e51b26a5d0815d5f7e5323 # v2.1.1
         with:
           project: .
           output: build
