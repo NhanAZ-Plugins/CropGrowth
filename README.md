@@ -29,7 +29,7 @@ Download `CropGrowth.phar` from a verified [GitHub release](https://github.com/N
 
 ## Building and testing
 
-The [build workflow](.github/workflows/build.yml) installs locked Composer development dependencies, runs PHPStan level max, builds the PHAR with [DevTools](https://github.com/NhanAZ/DevTools), and verifies its contents and digest. The workflow pins its build tools and Axolotl-PM source. A clean server startup check verifies that the PHAR loads. Particle and sound behavior with a Bedrock client requires an in-game check.
+The [build workflow](.github/workflows/build.yml) installs locked Composer development dependencies, runs PHPStan level max, builds the PHAR with [DevTools](https://github.com/AxolotlBucketLabs/DevTools), and verifies its contents and digest. The workflow pins its build tools and Axolotl-PM source. A clean server startup check verifies that the PHAR loads. Particle and sound behavior with a Bedrock client requires an in-game check.
 
 ## License and support
 
