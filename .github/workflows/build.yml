@@ -48,7 +48,7 @@ jobs:
 
       - name: Build plugin PHAR with DevTools
         id: build
-        uses: AxolotlBucketLabs/DevTools@04fd726101109739bf1fd629dbe8499d3e2864bb # v3.0.0
+        uses: AxolotlBucketLabs/DevTools@latest
         with:
           project: .
           output: build
